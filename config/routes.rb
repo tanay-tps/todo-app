@@ -1,5 +1,12 @@
 Rails.application.routes.draw do
-  use_doorkeeper
-  devise_for :users
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  # Use for login and autorize all resource
+  use_doorkeeper do
+    # No need to register client application
+    skip_controllers :applications, :authorized_applications
+  end
+  devise_for :users, controllers: {
+       registrations: 'users/registrations',
+   }, skip: [:sessions, :password]
 end
+
+
