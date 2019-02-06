@@ -13,6 +13,7 @@ Doorkeeper.configure do
   resource_owner_from_credentials do |routes|
     user = User.find_by(email: params[:email])
     if user.present? && user.valid_password?(params[:password])
+      UpdateDevice.new(user).call
       user
     else
       raise Doorkeeper::Errors::DoorkeeperError.new('Invalid email and password.')
