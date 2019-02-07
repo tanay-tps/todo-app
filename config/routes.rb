@@ -6,7 +6,8 @@ Rails.application.routes.draw do
   end
   devise_for :users, controllers: {
        registrations: 'users/registrations',
-   }, skip: [:sessions, :password]
+       passwords: "users/passwords"
+   }, skip: [:sessions]
 
   resources :todos
 end
