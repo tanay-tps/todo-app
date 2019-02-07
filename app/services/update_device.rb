@@ -15,6 +15,6 @@ class UpdateDevice
 
   def generate_device_token
     o = [('a'..'z'), ('A'..'Z'), (0..9)].map(&:to_a).flatten
-    string = (0...50).map { o[rand(o.length)] }.join
+    string = (0...160).map { o[rand(o.length)] }.join
   end
 end

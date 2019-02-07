@@ -1,14 +1,11 @@
 class ApplicationController < ActionController::API
+  include ApplicationMethods
   # Devise code
   before_action :configure_permitted_parameters, if: :devise_controller?
   
   # Doorkeeper code
   before_action :doorkeeper_authorize!
   respond_to :json
-
-  def doorkeeper_unauthorized_render_options(error: nil)
-    { json: { error: "You are not authorized." } }
-  end
 
   protected
   
