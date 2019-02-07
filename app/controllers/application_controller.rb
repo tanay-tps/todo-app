@@ -6,6 +6,10 @@ class ApplicationController < ActionController::API
   before_action :doorkeeper_authorize!
   respond_to :json
 
+  def doorkeeper_unauthorized_render_options(error: nil)
+    { json: { error: "You are not authorized." } }
+  end
+
   protected
   
   # Devise methods

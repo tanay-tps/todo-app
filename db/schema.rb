@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_06_123953) do
+ActiveRecord::Schema.define(version: 2019_02_07_042535) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,6 +66,16 @@ ActiveRecord::Schema.define(version: 2019_02_06_123953) do
     t.index ["uid"], name: "index_oauth_applications_on_uid", unique: true
   end
 
+  create_table "todo_users", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "todo_id"
+    t.boolean "is_creator", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["todo_id"], name: "index_todo_users_on_todo_id"
+    t.index ["user_id"], name: "index_todo_users_on_user_id"
+  end
+
   create_table "todos", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -90,5 +100,6 @@ ActiveRecord::Schema.define(version: 2019_02_06_123953) do
   add_foreign_key "devices", "users"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
-  add_foreign_key "todos", "users"
+  add_foreign_key "todo_users", "todos"
+  add_foreign_key "todo_users", "users"
 end
