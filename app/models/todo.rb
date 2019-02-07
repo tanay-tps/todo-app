@@ -1,3 +1,4 @@
 class Todo < ApplicationRecord
-  belongs_to :user
+  has_many :todo_users, dependent: :destroy
+  has_many :users, through: :todo_users
 end
