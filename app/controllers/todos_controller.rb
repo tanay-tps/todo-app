@@ -8,6 +8,7 @@ class TodosController < ApplicationController
     if todo.save!
       todo.todo_users.find_by(todo: todo, user: current_resource_owner).update(is_creator: true)
       todo.update(user_id: current_resource_owner.id)
+      todo.send_notification
       render json: { success: "true", message: "todo create  successfully", data: {todo: todo} }, status: 201
     else
       render json: { success: "false", message: "There was an error" }, status: 422
@@ -35,6 +36,7 @@ class TodosController < ApplicationController
     if @todo && @todo_user
       @todo.update_attributes(todo_params)
       if @todo.save!
+        @todo.send_notification
         render json: {data: {todo: @todo} }
       else
         render json: { success: "false", message: "There was an error" }, status: 422
