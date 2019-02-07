@@ -30,6 +30,8 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'doorkeeper'
 gem 'doorkeeper-jwt'
 
+gem 'fcm'
+
 # For authentication 
 gem 'devise', git: 'https://github.com/plataformatec/devise'
 
