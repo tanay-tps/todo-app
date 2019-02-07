@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  todo: one
+  is_creator: false
+
+two:
+  user: two
+  todo: two
+  is_creator: false
