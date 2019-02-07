@@ -14,12 +14,18 @@ class Users::PasswordsController < Devise::PasswordsController
       token = resource.send_reset_password_instructions
       yield resource if block_given?
       if successfully_sent?(resource)
-         render json: { success: "true", message: "Reset token sent to email: #{resource_params[:email]}", data: {token: token} }, status: 200
+         render_success_response(
+          { token: token },
+          "Reset token sent to email: #{resource_params[:email]}"
+          )
       else
-        render json: { success: "false", error: resource&.errors&.full_messages, status: 422 }
+        render_unprocessable_entity_response(resource)
       end
     else
-      render json: { success: false, message: "You are not registered with this email address" }, status: 404
+      json_response({
+      success: false,
+      message: "You are not registered with this email address"
+    }, 404)
     end
   end
   # GET /resource/password/edit?reset_password_token=abcdef
@@ -33,12 +39,17 @@ class Users::PasswordsController < Devise::PasswordsController
     yield resource if block_given?
     if resource.errors.empty?
       resource.unlock_access! if unlockable?(resource)
-      render json: { success: "true", message: "Your password created successfully", data: {user: resource} }, status: 200
+      render_success_response(
+        {
+          user: ActiveModelSerializers::SerializableResource.new(resource, serializer: UserSerializer)
+        }, "Your password created successfully"
+      )
     else
       set_minimum_password_length
-      render json: { success: "false", error: resource&.errors&.full_messages, status: 422 }
+      render_unprocessable_entity_response(resource)
     end
   end
+
 
   # protected
 
