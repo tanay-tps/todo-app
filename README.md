@@ -1,24 +1,85 @@
-# README
+Following are routes to test the all API endpoints.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+1) Registration
+  POST "/users"
+  Parameters: 
+  `{ 
+    "user": 
+      {
+      "email": "test@gmail.com",
+      "password": "123456",
+      "password_confirmation" : "123456"
+      }
+  }`
 
-Things you may want to cover:
+2) Login
+  POST "/oauth/token"
+  Parameters:
+  `{  "email": "test@gmail.com",  "password": "123456",  "grant_type": "password"}`
 
-* Ruby version
 
-* System dependencies
+Note: Please save token received after login and use that token in every request for Todo CRUD.
 
-* Configuration
+eg. Add this in header
 
-* Database creation
+  `Authorization: bearer received_token`
 
-* Database initialization
+3) Index of personal todos
 
-* How to run the test suite
+  GET "/todos/personal_list"
 
-* Services (job queues, cache servers, search engines, etc.)
 
-* Deployment instructions
+4) Index of collaborative todos
 
-* ...
+  GET "/todos/collaborative_list"
+
+5) Create new todo
+  POST "/todos"
+  Parameters:
+  `{ 
+    "todo": 
+      {
+      "title": "test todo",
+      "description": "This is the test description",
+      "user_ids": [1,2,3]
+      }
+  }`
+
+6) Details of todo
+  GET "/todos/:id"
+
+7) Update specific todo
+  PATCH "/todos/:id"
+  Parameters:
+  `{ 
+    "todo": 
+      {
+      "title": "test todo 2",
+      "description": "test description update",
+      "user_ids": [1,2,3]
+      }
+  }`
+
+
+
+8) Delete specific post
+  DELETE "/todos/:id"
+
+9) Get Reset password link
+  POST "/users/password"
+  Parameters:
+  `{  "email": "test@gmail.com"}`
+
+10) Get Update password
+  PATCH "/users/password"
+  Parameters:
+  `{
+    "user": {
+      "reset_password_token": "XGEq914VawuLL3ztFbM1",
+      "password": "123456",
+      "password_confirmation": "123456"
+    }
+  }`
+
+To check the spec, please run following command:
+`bundle exec rspec`
