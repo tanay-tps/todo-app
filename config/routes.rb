@@ -11,7 +11,12 @@ Rails.application.routes.draw do
        passwords: "users/passwords"
    }, skip: [:sessions]
 
-  resources :todos
+  resources :todos do
+    collection do
+      get :personal_list
+      get :collaborative_list
+    end
+  end
 end
 
 

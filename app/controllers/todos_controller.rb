@@ -32,6 +32,24 @@ class TodosController < ApplicationController
     end
   end
 
+  def personal_list
+    @todos = Todo.where(user_id: current_resource_owner.id)
+    if @todos.present?
+      render json: {data: {todos: @todos} }
+    else
+      render json: { success: "false", message: "No todos found !" }, status: 422
+    end    
+  end
+
+  def collaborative_list
+    @todos = current_resource_owner.todos
+    if @todos.present?
+      render json: {data: {todos: @todos} }
+    else
+      render json: { success: "false", message: "No todos found !" }, status: 422
+    end
+  end
+
   def update
     if @todo && @todo_user
       @todo.update_attributes(todo_params)
@@ -49,9 +67,10 @@ class TodosController < ApplicationController
   def destroy
     if @todo
       @todo.destroy!
-      head 200
+      render json: { success: "true", message: "todo deleted successfully"}, status: 200
+      
     else
-      render json: { message: "You are not authorized" }
+      render json: { message: "Todo Not found." }
     end
   end
   
@@ -67,6 +86,6 @@ class TodosController < ApplicationController
 
   def check_collaborative_user
     @todo_user = TodoUser.find_by(todo: @todo, user: current_resource_owner) if @todo
-    @todo_user = @todo_user.present? ? @todo_user :  @todo.user_id == current_resource_owner.id 
+    @todo_user = @todo_user.present? ? @todo_user :  @todo.user_id == current_resource_owner.id if @todo
   end
 end
