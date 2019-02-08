@@ -70,7 +70,7 @@ class TodosController < ApplicationController
       render json: { success: "true", message: "todo deleted successfully"}, status: 200
       
     else
-      render json: { message: "Todo Not found." }
+      render json: { message: "Todo Not found." }, status: 404
     end
   end
   
