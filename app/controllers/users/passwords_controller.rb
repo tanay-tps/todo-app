@@ -41,8 +41,8 @@ class Users::PasswordsController < Devise::PasswordsController
       resource.unlock_access! if unlockable?(resource)
       render_success_response(
         {
-          user: ActiveModelSerializers::SerializableResource.new(resource, serializer: UserSerializer)
-        }, "Your password created successfully"
+          user: resource
+        }, "Your password changed successfully"
       )
     else
       set_minimum_password_length

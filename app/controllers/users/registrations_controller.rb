@@ -21,14 +21,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
         else
           expire_data_after_sign_in!
         end
-        render json: { success: "true", message: "register successfully", data: {user: resource} }, status: 200
+        # render json: { success: "true", message: "register successfully", data: {user: resource} }, status: 200
 
-        # render_success_response({ :user => resource }, 200)
+        render_success_response({ :user => resource }, "Register successfully")
       else
-        render json: { success: "false", error: resource&.errors&.full_messages, status: 422 }
+        # render json: { success: "false", error: resource&.errors&.full_messages, status: 422 }
+        render_unprocessable_entity_response(resource)
       end
     else
-        render json: { success: "false", error: resource&.errors&.full_messages, status: 422 }
+        # render json: { success: "false", error: resource&.errors&.full_messages, status: 422 }
+        render_unprocessable_entity_response(resource)
     end
   end
 
